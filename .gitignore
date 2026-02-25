@@ -1,4 +1,10 @@
 __pycache__/
+*.pyc
 *.log
 .DS_Store
 docs/AI_ANGLE_PRESETS_PLAN.md
+.pytest_cache/
+.mypy_cache/
+.vscode/
+*.tmp
+*.bak

@@ -15,8 +15,19 @@
 - 🖼️ **参考图像叠加** - 可选输入参考图像，自动作为预览叠加层
 - 🎥 **相机参数控制** - 支持外参（extrinsics）和内参（intrinsics）输入
 - 💾 **相机状态缓存** - 自动保存和恢复相机视角参数
+- 🧭 **角度预设系统** - 支持保存/应用/删除预设，支持全局与当前模型作用域
+- 🧩 **分区化控制栏** - 控件按 View / Camera / Display / Presets 分组，操作更清晰
+- 💬 **统一风格确认弹窗** - 覆盖与删除预设使用内嵌风格弹窗，不再使用浏览器白色原生弹窗
 - 🔗 **无缝集成** - 输出 IMAGE 可直接连接到 ComfyUI 其他节点
 - 🌐 **Web 界面** - 基于 gsplat.js 的现代 3D 查看器
+
+## 最近更新（Recent Changes）
+
+- 新增相机角度预设：支持 `Global` / `Current Mesh` 两种作用域。
+- 新增预设持久化：使用 `localStorage` 保存，刷新页面后仍可继续使用。
+- 新增预设切换稳定性修复：预设恢复时同步相机位置、目标、焦距、缩放与滚转（roll）。
+- 控制栏重排为功能分区：`View` / `Camera` / `Display` / `Presets`。
+- 预设覆盖与删除确认改为插件内统一样式弹窗，避免浏览器原生 confirm 的 UI 割裂。
 
 ## 安装
 
@@ -117,11 +128,10 @@ pip install numpy torch Pillow
   - `Z/C`：滚转（Roll）
   - `Shift`：精细移动（0.1x）
 - **底部控制条**
-  - `Reset View`：重置视角
-  - `Set Camera`：将当前视角写入相机缓存，供渲染输出使用（**渲染前必须点击**）
-  - `Scale`：调整高斯点大小（可改善稀疏/过密）
-  - `Focal`：缩放焦距，影响视场角
-  - `Overlay`：当输入参考图像时，可调节叠加透明度
+  - `View` 组：`Reset View`、`?`
+  - `Camera` 组：`Focal`、`Set Camera`（**渲染前必须点击**）
+  - `Display` 组：`Scale`、`Overlay`
+  - `Presets` 组：`Scope`、`Name`、`Save`、`Apply`、`Delete`、`Preset Select`
 - **比例裁剪**
   - 左下角 `Image Ratio` 可切换输出比例，渲染时会按当前比例裁剪输出。
 
@@ -167,7 +177,6 @@ comfyui-GaussianViewer/
 ├── __init__.py                 # 插件入口和节点注册
 ├── gaussian_viewer.py          # 主节点（预览+渲染）
 ├── render_gaussian.py          # 渲染逻辑与 HTTP 端点（内部使用）
-├── preview_gaussian2.py        # 旧版预览节点（已弃用）
 ├── camera_params.py            # 相机参数缓存模块
 ├── requirements.txt            # Python 依赖
 └── web/                        # Web 界面和 JavaScript 文件

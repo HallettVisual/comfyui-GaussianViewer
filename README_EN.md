@@ -15,8 +15,19 @@ An all-in-one ComfyUI node plugin for interactive Gaussian Splatting PLY preview
 - 🖼️ **Reference Overlay** - Optional reference image overlay in the viewer
 - 🎥 **Camera Parameters** - Supports extrinsics/intrinsics inputs
 - 💾 **Camera State Cache** - Automatically saves and restores camera view
+- 🧭 **Camera Preset System** - Save/apply/delete presets with Global and Current Mesh scopes
+- 🧩 **Grouped Control Bar** - Controls are organized by View / Camera / Display / Presets
+- 💬 **Unified Confirmation Dialog** - Preset overwrite/delete uses in-app styled dialogs (no browser native white confirm)
 - 🔗 **Seamless Integration** - Outputs IMAGE for downstream ComfyUI nodes
 - 🌐 **Web Viewer** - Modern gsplat.js-based 3D viewer
+
+## Recent Changes
+
+- Added camera angle presets with two scopes: `Global` and `Current Mesh`.
+- Added preset persistence with `localStorage` so presets remain after page refresh.
+- Added preset switching stability fixes: restore position, target, focal, scale, and roll consistently.
+- Reorganized bottom controls into functional groups: `View` / `Camera` / `Display` / `Presets`.
+- Replaced preset overwrite/delete confirmation with in-app styled dialog to avoid browser-native confirm UX mismatch.
 
 ## Installation
 
@@ -117,11 +128,10 @@ Inside the embedded viewer below the GaussianViewer node:
   - `Z/C`: Roll
   - `Shift`: Precision mode (0.1x)
 - **Bottom Controls**
-  - `Reset View`: Reset camera view
-  - `Set Camera`: Save current camera for render (**required before rendering**)
-  - `Scale`: Adjust Gaussian size (fix sparse/dense appearance)
-  - `Focal`: Scale focal length to change FOV
-  - `Overlay`: Adjust reference image transparency (if provided)
+  - `View` group: `Reset View`, `?`
+  - `Camera` group: `Focal`, `Set Camera` (**required before rendering**)
+  - `Display` group: `Scale`, `Overlay`
+  - `Presets` group: `Scope`, `Name`, `Save`, `Apply`, `Delete`, `Preset Select`
 - **Aspect Ratio Crop**
   - `Image Ratio` (bottom-left) switches the output crop ratio used for render outputs.
 
@@ -165,7 +175,6 @@ comfyui-GaussianViewer/
 ├── __init__.py                 # Plugin entry & node registration
 ├── gaussian_viewer.py          # Main node (preview + render)
 ├── render_gaussian.py          # Render logic + HTTP endpoints (internal)
-├── preview_gaussian2.py        # Legacy preview node (deprecated)
 ├── camera_params.py            # Camera cache module
 ├── requirements.txt            # Python deps
 └── web/                        # Web UI + JavaScript
